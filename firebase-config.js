@@ -1,14 +1,15 @@
 // Firebase Configuration for MamurBeta
 // Firebase SDK v8 configuration
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyCrl0wGaETrVRPpPPZ7oacyfXO8n0A_-B8",
-    authDomain: "mamurbeta-ovijog-box.firebaseapp.com",
-    projectId: "mamurbeta-ovijog-box",
-    storageBucket: "mamurbeta-ovijog-box.firebasestorage.app",
-    messagingSenderId: "131932765897",
-    appId: "1:131932765897:web:9f0f52521f5e78ec151718",
-    measurementId: "G-EQ1ZXGKS5E"
+  apiKey: "AIzaSyCrl0wGaETrVRPpPPZ7oacyfXO8n0A_-B8",
+  authDomain: "mamurbeta-ovijog-box.firebaseapp.com",
+  projectId: "mamurbeta-ovijog-box",
+  storageBucket: "mamurbeta-ovijog-box.firebasestorage.app",
+  messagingSenderId: "131932765897",
+  appId: "1:131932765897:web:9f0f52521f5e78ec151718",
+  measurementId: "G-EQ1ZXGKS5E"
 };
 
 // Initialize Firebase
