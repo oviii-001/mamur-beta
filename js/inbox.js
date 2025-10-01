@@ -385,7 +385,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Truncate ID for display
+        // Get nickname or use fallback
+        const displayName = data.nickname && data.nickname.trim() !== '' ? data.nickname : 'Anonymous';
         const shortId = id.substring(0, 8) + '...';
         
         // Always show expand for better UX (even for short messages)
@@ -394,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return `
             <div class="message-card" data-id="${id}" data-expandable="true">
                 <div class="message-header">
-                    <div class="message-id">📄 ID: ${shortId}</div>
+                    <div class="message-id">� ${escapeHtml(displayName)}</div>
                     <div class="message-time">
                         <div>${dateString}</div>
                         <small>${timeAgo}</small>

@@ -4,6 +4,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const messageForm = document.getElementById('messageForm');
     const messageText = document.getElementById('messageText');
+    const nickname = document.getElementById('nickname');
     const charCount = document.getElementById('charCount');
     const statusMessage = document.getElementById('statusMessage');
 
@@ -79,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const message = messageText.value.trim();
+        const userNickname = nickname.value.trim();
 
         // Validate message
         const validation = validateMessage(message);
@@ -99,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.textContent = '⏳ SENDING...';
             submitButton.disabled = true;
             messageText.disabled = true;
+            nickname.disabled = true;
 
             // Get Firestore instance
             const db = firebase.firestore();
@@ -106,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add message to Firestore with additional metadata
             await db.collection('messages').add({
                 message: message,
+                nickname: userNickname || 'Anonymous',
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 createdAt: new Date().toISOString(),
                 messageLength: message.length,
@@ -118,12 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Success!
             showStatus('✅ Message sent successfully! Your identity is completely safe! 🎉', 'success');
             messageText.value = '';
+            nickname.value = '';
             charCount.textContent = '0';
 
             // Restore button
             submitButton.textContent = originalText;
             submitButton.disabled = false;
             messageText.disabled = false;
+            nickname.disabled = false;
             messageText.focus();
 
         } catch (error) {
@@ -146,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.textContent = '🚀 SEND MESSAGE 🚀';
             submitButton.disabled = false;
             messageText.disabled = false;
+            nickname.disabled = false;
         }
     });
 
