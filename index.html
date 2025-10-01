@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>অভিযোগ বক্স - Anonymous Complaint Box</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
 <body>
     <!-- Top Right Admin Link -->
@@ -54,8 +57,39 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
-    <script src="firebase-config.js"></script>
+    <script src="firebase-config.js?v=3.0"></script>
     <script>
+        // Service Worker Registration for better cache control
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                        
+                        // Listen for updates
+                        registration.addEventListener('updatefound', function() {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', function() {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New version available
+                                    if (confirm('নতুন আপডেট উপলব্ধ! পেজ রিফ্রেশ করবেন? / New update available! Refresh page?')) {
+                                        newWorker.postMessage({type: 'SKIP_WAITING'});
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Cache busting - force fresh loads
+        const cacheBuster = Date.now();
+        console.log('Cache buster timestamp:', cacheBuster);
+        
         // Wait for Firebase to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
@@ -65,6 +99,6 @@
             }
         });
     </script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=3.0"></script>
 </body>
 </html>
