@@ -1,14 +1,5 @@
 // Firebase Configuration for MamurBeta
-// Replace these values with your actual Firebase project credentials
-
-// TODO: Replace with your Firebase project configuration
-// You can find these values in your Firebase Console:
-// 1. Go to https://console.firebase.google.com/
-// 2. Select your project
-// 3. Click on the gear icon (Project Settings)
-// 4. Scroll down to "Your apps" section
-// 5. Click on the web app icon (</>)
-// 6. Copy the configuration object
+// Firebase SDK v8 configuration
 
 const firebaseConfig = {
     apiKey: "AIzaSyCrl0wGaETrVRPpPPZ7oacyfXO8n0A_-B8",

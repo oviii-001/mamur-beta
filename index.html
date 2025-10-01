@@ -1,7 +1,4 @@
-<!DOCTYPE    <!-- Top Right Admin Link -->
-    <div style="position: absolute; top: 15px; right: 20px; z-index: 1000;">
-        <a href="login.html" style="color: #666; text-decoration: none; font-size: 11px; opacity: 0.4; font-family: 'Roboto', sans-serif;">Admin</a>
-    </div>l>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -12,12 +9,12 @@
 <body>
     <!-- Top Right Admin Link -->
     <div style="position: absolute; top: 15px; right: 20px; z-index: 1000;">
-        <a href="inbox.html" style="color: #666; text-decoration: none; font-size: 11px; opacity: 0.4; font-family: 'Roboto', sans-serif;">Shit!!!</a>
+        <a href="login.html" style="color: #666; text-decoration: none; font-size: 11px; opacity: 0.4; font-family: 'Roboto', sans-serif;">Admin</a>
     </div>
     
     <div class="container">
         <div class="content">
-            <h1>অভিযোগ বক্স �</h1>
+            <h1>অভিযোগ বক্স 📋</h1>
             <h2>Anonymous Complaint Box</h2>
             <p>
                 এই বক্সে আপনি <span>@mamurbeta</span> এর বিরুদ্ধে যেকোনো অভিযোগ, সমালোচনা বা পরামর্শ জানাতে পারেন।
@@ -45,7 +42,11 @@
         </div>
     </div>
 
-    <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="js/main.js"></script>
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="firebase-config.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
