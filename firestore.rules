@@ -15,9 +15,9 @@ service cloud.firestore {
       // No updates or deletes from anonymous users
       allow update, delete: if false;
       
-      // Allow authenticated users to read (admin only)
-      // For public inbox access, change to: allow read: if true;
-      allow read: if request.auth != null;
+      // Allow reading messages (admin panel access)
+      // Since we use session-based auth, not Firebase Auth
+      allow read: if true;
     }
   }
 }

@@ -25,24 +25,154 @@ document.addEventListener('DOMContentLoaded', function() {
     let allMessagesLoaded = false;
     const MESSAGES_PER_PAGE = 20;
 
-    // Check Firebase configuration
-    if (!firebase.apps.length) {
-        messagesContainer.innerHTML = '<div class="no-messages">⚠️ Firebase is not configured. Please check firebase-config.js</div>';
-        return;
+    // Enhanced Firebase configuration check
+    function checkFirebaseReady() {
+        try {
+            if (typeof firebase === 'undefined') {
+                throw new Error('Firebase SDK not loaded');
+            }
+            
+            if (!firebase.apps || firebase.apps.length === 0) {
+                throw new Error('Firebase not initialized');
+            }
+            
+            if (!firebase.firestore) {
+                throw new Error('Firestore not available');
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Firebase check failed:', error);
+            return false;
+        }
     }
 
-    // Get Firestore instance
-    const db = firebase.firestore();
+    // Wait for Firebase to be ready with retry mechanism
+    function waitForFirebaseReady(maxRetries = 30) {
+        return new Promise((resolve, reject) => {
+            let retries = 0;
+            
+            function check() {
+                if (checkFirebaseReady()) {
+                    resolve(true);
+                } else if (retries >= maxRetries) {
+                    reject(new Error('Firebase failed to initialize after maximum retries'));
+                } else {
+                    retries++;
+                    setTimeout(check, 100);
+                }
+            }
+            
+            check();
+        });
+    }
 
-    // Show status message
+    // Initialize everything after Firebase is ready
+    async function initializeApp() {
+        try {
+            await waitForFirebaseReady();
+            console.log('✅ Firebase confirmed ready, initializing app...');
+            
+            // Get Firestore instance
+            window.db = firebase.firestore();
+            
+            // Load initial data
+            loadMessages();
+            
+        } catch (error) {
+            console.error('❌ Firebase initialization failed:', error);
+            messagesContainer.innerHTML = `
+                <div class="no-messages">
+                    <div class="no-messages-icon">⚠️</div>
+                    <h3>Firebase Configuration Error</h3>
+                    <p>Unable to connect to Firebase. Please check your connection and try again.</p>
+                    <button onclick="location.reload()" style="
+                        background: #e94560; 
+                        color: white; 
+                        border: none; 
+                        padding: 1rem 2rem; 
+                        border-radius: 8px; 
+                        cursor: pointer; 
+                        margin-top: 1rem;
+                    ">Retry</button>
+                </div>
+            `;
+            return;
+        }
+    }
+
+    // Start initialization
+    initializeApp();
+
+    // Show status message with enhanced styling
     function showStatus(message, type = 'success') {
         statusMessage.className = `status-message ${type}`;
-        statusMessage.textContent = message;
+        statusMessage.innerHTML = `
+            <div class="status-content">
+                <span class="status-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                <span class="status-text">${message}</span>
+            </div>
+        `;
         statusMessage.style.display = 'block';
+        statusMessage.style.animation = 'slideDown 0.3s ease-out';
         
         setTimeout(() => {
-            statusMessage.style.display = 'none';
+            statusMessage.style.animation = 'slideUp 0.3s ease-out';
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 300);
         }, 3000);
+    }
+
+    // Enhanced loading state
+    function showLoading() {
+        messagesContainer.innerHTML = `
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">মেসেজগুলি লোড হচ্ছে... / Loading messages...</div>
+            </div>
+        `;
+    }
+
+    // Enhanced no messages state
+    function showNoMessages() {
+        messagesContainer.innerHTML = `
+            <div class="no-messages">
+                <div class="no-messages-icon">📭</div>
+                <h3>কোনো মেসেজ নেই / No Messages</h3>
+                <p>এখনো কোনো অভিযোগ জমা দেওয়া হয়নি। যখন নতুন মেসেজ আসবে তখন এখানে দেখানো হবে।<br><br>
+                No complaints have been submitted yet. New messages will appear here when they arrive.</p>
+            </div>
+        `;
+    }
+
+    // Update stats function
+    async function updateStats(totalCount = null, todayCountValue = null) {
+        try {
+            if (totalCount === null) {
+                const totalSnapshot = await window.db.collection('messages').get();
+                messageCount.textContent = totalSnapshot.size;
+            } else {
+                messageCount.textContent = totalCount;
+            }
+
+            if (todayCountValue === null) {
+                // Count today's messages
+                const todayStart = new Date();
+                todayStart.setHours(0, 0, 0, 0);
+                const todaySnapshot = await window.db.collection('messages')
+                    .where('timestamp', '>=', todayStart)
+                    .get();
+                todayCount.textContent = todaySnapshot.size;
+            } else {
+                todayCount.textContent = todayCountValue;
+            }
+            
+            // Update recent activity
+            updateRecentActivity();
+        } catch (error) {
+            console.error('Error updating stats:', error);
+        }
     }
 
     // Update recent activity
@@ -55,22 +185,23 @@ document.addEventListener('DOMContentLoaded', function() {
         recentActivity.textContent = timeString;
     }
 
-    // Load messages function
+    // Enhanced load messages function
     async function loadMessages(append = false) {
         try {
             if (!append) {
-                messagesContainer.innerHTML = `
-                    <div class="loading-state">
-                        <div class="loading-spinner"></div>
-                        <p>অভিযোগ লোড হচ্ছে... / Loading complaints...</p>
-                    </div>
-                `;
+                showLoading();
                 lastVisible = null;
                 allMessagesLoaded = false;
+            } else {
+                loadMoreBtn.innerHTML = `
+                    <span class="loading-spinner" style="width: 20px; height: 20px; margin-right: 0.5rem;"></span>
+                    লোড হচ্ছে... / Loading...
+                `;
+                loadMoreBtn.disabled = true;
             }
 
             const order = sortOrder.value;
-            let query = db.collection('messages')
+            let query = window.db.collection('messages')
                 .orderBy('timestamp', order)
                 .limit(MESSAGES_PER_PAGE);
 
@@ -82,13 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const snapshot = await query.get();
 
             if (snapshot.empty && !append) {
-                messagesContainer.innerHTML = `
-                    <div class="no-messages">
-                        কোনো অভিযোগ পাওয়া যায়নি / No complaints found yet
-                    </div>
-                `;
-                messageCount.textContent = '0';
-                todayCount.textContent = '0';
+                showNoMessages();
+                updateStats(0, 0);
                 loadMoreContainer.style.display = 'none';
                 return;
             }
@@ -108,13 +234,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Get total count and today's count
             if (!append) {
-                const totalSnapshot = await db.collection('messages').get();
+                const totalSnapshot = await window.db.collection('messages').get();
                 messageCount.textContent = totalSnapshot.size;
 
                 // Count today's messages
                 const todayStart = new Date();
                 todayStart.setHours(0, 0, 0, 0);
-                const todaySnapshot = await db.collection('messages')
+                const todaySnapshot = await window.db.collection('messages')
                     .where('timestamp', '>=', todayStart)
                     .get();
                 todayCount.textContent = todaySnapshot.size;
@@ -147,6 +273,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!append) {
                 showStatus('অভিযোগ সফলভাবে লোড হয়েছে / Complaints loaded successfully');
+            } else {
+                // Reset load more button
+                loadMoreBtn.innerHTML = `
+                    <span class="icon">📥</span>
+                    আরো লোড করুন / Load More
+                `;
+                loadMoreBtn.disabled = false;
+                showStatus('আরো অভিযোগ লোড হয়েছে / More complaints loaded');
             }
 
         } catch (error) {
@@ -160,6 +294,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             showStatus(errorMsg, 'error');
+            
+            // Reset load more button if appending failed
+            if (append) {
+                loadMoreBtn.innerHTML = `
+                    <span class="icon">📥</span>
+                    আরো লোড করুন / Load More
+                `;
+                loadMoreBtn.disabled = false;
+            }
         }
     }
 
@@ -272,6 +415,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateRecentActivity();
     }, 60000);
 
-    // Initial load
-    loadMessages();
+    // Note: Initial load is now handled by initializeApp()
 });

@@ -143,6 +143,69 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
     <script src="firebase-config.js"></script>
+    <script>
+        // Enhanced Firebase loading check
+        function waitForFirebase() {
+            return new Promise((resolve, reject) => {
+                let attempts = 0;
+                const maxAttempts = 50; // 5 seconds max wait
+                
+                function checkFirebase() {
+                    attempts++;
+                    
+                    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+                        console.log('✅ Firebase ready, loading inbox functionality...');
+                        resolve(true);
+                    } else if (attempts >= maxAttempts) {
+                        console.error('❌ Firebase failed to load after 5 seconds');
+                        reject(new Error('Firebase timeout'));
+                    } else {
+                        setTimeout(checkFirebase, 100);
+                    }
+                }
+                
+                checkFirebase();
+            });
+        }
+        
+        // Wait for DOM and Firebase
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                await waitForFirebase();
+                // Firebase is ready, inbox.js will work properly
+            } catch (error) {
+                console.error('Firebase initialization failed:', error);
+                // Show user-friendly error
+                document.body.innerHTML = `
+                    <div style="
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: center; 
+                        min-height: 100vh; 
+                        background: #1a1a2e; 
+                        color: white; 
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                        padding: 2rem;
+                    ">
+                        <div>
+                            <h2>🔄 Loading Firebase...</h2>
+                            <p>Please wait while we initialize the connection.</p>
+                            <button onclick="location.reload()" style="
+                                background: #e94560; 
+                                color: white; 
+                                border: none; 
+                                padding: 1rem 2rem; 
+                                border-radius: 8px; 
+                                cursor: pointer; 
+                                margin-top: 1rem;
+                            ">Retry</button>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
     <script src="js/inbox.js"></script>
 </body>
 </html>

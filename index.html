@@ -47,6 +47,16 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
     <script src="firebase-config.js"></script>
+    <script>
+        // Wait for Firebase to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                console.log('Firebase ready for message submission...');
+            } else {
+                console.error('Firebase not properly initialized');
+            }
+        });
+    </script>
     <script src="js/main.js"></script>
 </body>
 </html>

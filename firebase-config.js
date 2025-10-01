@@ -1,7 +1,6 @@
 // Firebase Configuration for MamurBeta
 // Firebase SDK v8 configuration
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCrl0wGaETrVRPpPPZ7oacyfXO8n0A_-B8",
   authDomain: "mamurbeta-ovijog-box.firebaseapp.com",
@@ -12,13 +11,17 @@ const firebaseConfig = {
   measurementId: "G-EQ1ZXGKS5E"
 };
 
-// Initialize Firebase
+// Initialize Firebase (check if already initialized)
 try {
-    firebase.initializeApp(firebaseConfig);
-    console.log('✅ Firebase initialized successfully!');
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        console.log('✅ Firebase initialized successfully!');
+    } else {
+        console.log('✅ Firebase already initialized');
+    }
 } catch (error) {
     console.error('❌ Error initializing Firebase:', error);
-    alert('⚠️ Firebase configuration error. Please check firebase-config.js');
+    console.error('Error details:', error.message);
 }
 
 // Firestore Rules for your project:

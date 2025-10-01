@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!firebase.apps.length) {
+        if (typeof firebase === 'undefined' || !firebase.apps.length) {
             showStatus('⚠️ Firebase is not configured. Please contact the site owner.', 'error');
             return;
         }
