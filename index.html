@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MamurBeta - Anonymous Messages</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Send me an anonymous message 📮</h1>
+            <h2>Anonymous Message Box</h2>
+            <p>
+                Hey, it's <span>@mamurbeta</span>! Got something to tell me? This is your chance to say anything anonymously. 
+                <br />Could be feedback, a compliment, a confession, or just whatever's on your mind.
+                <br />I'll never know it was you, so feel free to be honest! 😊
+            </p>
+            
+            <form id="messageForm">
+                <textarea
+                    id="messageText"
+                    rows="10"
+                    maxlength="1000"
+                    placeholder="Start writing your message..."
+                    required
+                ></textarea>
+                
+                <div class="char-count">
+                    <span id="charCount">0</span> / 1000 characters
+                </div>
+                
+                <button type="submit">Send</button>
+            </form>
+
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

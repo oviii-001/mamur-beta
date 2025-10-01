@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Inbox - MamurBeta</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container admin-content">
+        <div class="content">
+            <h1>All Messages to MamurBeta 📬</h1>
+            
+            <div class="controls">
+                <button id="refreshBtn">🔄 Refresh</button>
+                <select id="sortOrder">
+                    <option value="desc">⬇️ Newest First</option>
+                    <option value="asc">⬆️ Oldest First</option>
+                </select>
+                <div class="stats">
+                    <span>Total: <strong><span id="messageCount">0</span></strong></span>
+                    <span>Today: <strong><span id="todayCount">0</span></strong></span>
+                </div>
+            </div>
+
+            <div id="statusMessage" class="status-message"></div>
+            
+            <div class="messages-container" id="messagesContainer">
+                <div class="no-messages">Loading messages...</div>
+            </div>
+
+            <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+                <button id="loadMoreBtn">📥 Load More Messages</button>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="js/inbox.js"></script>
+</body>
+</html>
