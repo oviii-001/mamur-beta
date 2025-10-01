@@ -3,40 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অভিযোগ বক্স - Admin Panel</title>
+    <title>আভিযোগ বক্স - Admin Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <div class="container admin-content">
-        <div class="content">
-            <h1>সকল অভিযোগ / All Complaints �</h1>
-            
-            <div class="controls">
-                <button id="refreshBtn">🔄 রিফ্রেশ / Refresh</button>
-                <select id="sortOrder">
-                    <option value="desc">⬇️ Newest First</option>
-                    <option value="asc">⬆️ Oldest First</option>
-                </select>
-                <div class="stats">
-                    <span>Total: <strong><span id="messageCount">0</span></strong></span>
-                    <span>Today: <strong><span id="todayCount">0</span></strong></span>
+    <div class="admin-dashboard">
+        <!-- Header Section -->
+        <header class="admin-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="dashboard-title">
+                        <span class="icon">🛡️</span>
+                        আভিযোগ বক্স ড্যাশবোর্ড
+                    </h1>
+                    <p class="dashboard-subtitle">Complaint Box Admin Panel</p>
+                </div>
+                <div class="header-right">
+                    <a href="index.html" class="back-btn">
+                        <span class="icon">🔙</span>
+                        ফিরে যান / Back
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Cards Section -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card total-complaints">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <h3>মোট অভিযোগ</h3>
+                        <p class="stat-label">Total Complaints</p>
+                        <div class="stat-number" id="messageCount">0</div>
+                    </div>
+                </div>
+                <div class="stat-card today-complaints">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <h3>আজকের অভিযোগ</h3>
+                        <p class="stat-label">Today's Complaints</p>
+                        <div class="stat-number" id="todayCount">0</div>
+                    </div>
+                </div>
+                <div class="stat-card recent-activity">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-content">
+                        <h3>সর্বশেষ কার্যকলাপ</h3>
+                        <p class="stat-label">Recent Activity</p>
+                        <div class="stat-number" id="recentActivity">-</div>
+                    </div>
+                </div>
+                <div class="stat-card status-indicator">
+                    <div class="stat-icon">🟢</div>
+                    <div class="stat-content">
+                        <h3>সিস্টেম স্ট্যাটাস</h3>
+                        <p class="stat-label">System Status</p>
+                        <div class="stat-number">অনলাইন</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls Section -->
+        <section class="controls-section">
+            <div class="controls-container">
+                <div class="controls-left">
+                    <h2 class="section-title">
+                        <span class="icon">📋</span>
+                        অভিযোগ ব্যবস্থাপনা / Complaint Management
+                    </h2>
+                </div>
+                <div class="controls-right">
+                    <button id="refreshBtn" class="control-btn refresh-btn">
+                        <span class="icon">🔄</span>
+                        রিফ্রেশ / Refresh
+                    </button>
+                    <select id="sortOrder" class="control-select">
+                        <option value="desc">⬇️ সর্বশেষ প্রথম / Newest First</option>
+                        <option value="asc">⬆️ পুরাতন প্রথম / Oldest First</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Message -->
+        <div id="statusMessage" class="status-message"></div>
+
+        <!-- Messages Section -->
+        <section class="messages-section">
+            <div class="messages-container" id="messagesContainer">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>অভিযোগ লোড হচ্ছে... / Loading complaints...</p>
                 </div>
             </div>
 
-            <div id="statusMessage" class="status-message"></div>
-            
-            <div class="messages-container" id="messagesContainer">
-                <div class="no-messages">Loading messages...</div>
-            </div>
-
             <div class="load-more-container" id="loadMoreContainer" style="display: none;">
-                <button id="loadMoreBtn">📥 আরও দেখুন / Load More</button>
+                <button id="loadMoreBtn" class="load-more-btn">
+                    <span class="icon">📥</span>
+                    আরও দেখুন / Load More
+                </button>
             </div>
-
-            <div class="back-link">
-                <a href="index.html">← আভিযোগ বক্সে ফিরুন / Back to Complaint Box</a>
-            </div>
-        </div>
+        </section>
     </div>
 
     <script type="module" src="firebase-config.js"></script>
