@@ -11,12 +11,13 @@
 // 6. Copy the configuration object
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY_HERE",
-    authDomain: "YOUR_AUTH_DOMAIN_HERE",
-    projectId: "YOUR_PROJECT_ID_HERE",
-    storageBucket: "YOUR_STORAGE_BUCKET_HERE",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
-    appId: "YOUR_APP_ID_HERE"
+    apiKey: "AIzaSyCrl0wGaETrVRPpPPZ7oacyfXO8n0A_-B8",
+    authDomain: "mamurbeta-ovijog-box.firebaseapp.com",
+    projectId: "mamurbeta-ovijog-box",
+    storageBucket: "mamurbeta-ovijog-box.firebasestorage.app",
+    messagingSenderId: "131932765897",
+    appId: "1:131932765897:web:9f0f52521f5e78ec151718",
+    measurementId: "G-EQ1ZXGKS5E"
 };
 
 // Initialize Firebase
