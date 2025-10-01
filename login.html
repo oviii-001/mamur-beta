@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আভিযোগ বক্স - Admin Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            border-radius: 16px;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-title {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .login-subtitle {
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-label {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #e94560;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #888;
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #e94560, #d63653);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .login-button:hover {
+            background: linear-gradient(135deg, #d63653, #c42a46);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(233, 69, 96, 0.4);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .back-link {
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #e94560;
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .login-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="login-title">
+                <span>🔐</span>
+                অ্যাডমিন লগইন
+            </h1>
+            <p class="login-subtitle">Admin Login | প্রশাসনিক প্রবেশ</p>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">
+                        ব্যবহারকারীর নাম / Username
+                    </label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        class="form-input"
+                        placeholder="Enter username"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        পাসওয়ার্ড / Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input"
+                        placeholder="Enter password"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button type="submit" class="login-button" id="loginButton">
+                    🚀 লগইন করুন / Login
+                </button>
+
+                <div class="error-message" id="errorMessage"></div>
+            </form>
+
+            <div class="back-link">
+                <a href="index.html">← আভিযোগ বক্সে ফিরুন / Back to Complaint Box</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const loginButton = document.getElementById('loginButton');
+            
+            // Hide previous error
+            errorMessage.style.display = 'none';
+            
+            // Disable button during login
+            loginButton.disabled = true;
+            loginButton.textContent = '⏳ যাচাই করা হচ্ছে... / Verifying...';
+            
+            // Simple authentication (you can change these credentials)
+            const validUsername = 'mamurbeta';
+            const validPassword = 'ovi@mamurbeta.10';
+            
+            setTimeout(() => {
+                if (username === validUsername && password === validPassword) {
+                    // Store authentication in session
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    sessionStorage.setItem('adminLoginTime', Date.now().toString());
+                    
+                    // Success feedback
+                    loginButton.textContent = '✅ সফল! / Success!';
+                    loginButton.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    
+                    // Redirect to admin panel
+                    setTimeout(() => {
+                        window.location.href = 'inbox.html';
+                    }, 1000);
+                } else {
+                    // Show error
+                    errorMessage.textContent = '❌ ভুল ব্যবহারকারীর নাম বা পাসওয়ার্ড / Invalid username or password';
+                    errorMessage.style.display = 'block';
+                    
+                    // Re-enable button
+                    loginButton.disabled = false;
+                    loginButton.textContent = '🚀 লগইন করুন / Login';
+                    
+                    // Clear password field
+                    document.getElementById('password').value = '';
+                }
+            }, 1500); // Simulate network delay
+        });
+
+        // Auto-redirect if already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            const loginTime = parseInt(sessionStorage.getItem('adminLoginTime') || '0');
+            const currentTime = Date.now();
+            const hoursPassed = (currentTime - loginTime) / (1000 * 60 * 60);
+            
+            // Auto logout after 24 hours
+            if (hoursPassed < 24) {
+                window.location.href = 'inbox.html';
+            } else {
+                sessionStorage.removeItem('adminLoggedIn');
+                sessionStorage.removeItem('adminLoginTime');
+            }
+        }
+    </script>
+</body>
+</html>

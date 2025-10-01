@@ -1,5 +1,14 @@
 // Inbox JavaScript for MamurBeta - Admin Dashboard
 
+// Logout function
+function logout() {
+    if (confirm('আপনি কি লগআউট করতে চান? / Are you sure you want to logout?')) {
+        sessionStorage.removeItem('adminLoggedIn');
+        sessionStorage.removeItem('adminLoginTime');
+        window.location.href = 'login.html';
+    }
+}
+
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     const messagesContainer = document.getElementById('messagesContainer');
