@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get Firestore instance
             window.db = firebase.firestore();
             
+            // Initialize card expansion functionality
+            initializeCardExpansion();
+            
             // Load initial data
             loadMessages();
             
@@ -263,7 +266,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (messagesHTML === '') {
                 messagesContainer.innerHTML = '<div class="no-messages">কোনো অভিযোগ পাওয়া যায়নি / No complaints found</div>';
+                messagesContainer.classList.add('empty-state');
             } else {
+                messagesContainer.classList.remove('empty-state');
                 if (!append) {
                     messagesContainer.innerHTML = messagesHTML;
                 } else {
@@ -304,6 +309,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadMoreBtn.disabled = false;
             }
         }
+    }
+
+    // Card expand/collapse functionality
+    function setupCardExpansion() {
+        document.addEventListener('click', function(e) {
+            const card = e.target.closest('.message-card');
+            const expandBtn = e.target.closest('.expand-indicator');
+            
+            if (card && card.dataset.expandable === 'true') {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const content = card.querySelector('.message-content');
+                const indicator = card.querySelector('.expand-indicator');
+                
+                if (card.classList.contains('expanded')) {
+                    // Collapse
+                    card.classList.remove('expanded');
+                    content.classList.remove('expanded');
+                    if (indicator) indicator.textContent = '⬇';
+                } else {
+                    // Expand
+                    card.classList.add('expanded');
+                    content.classList.add('expanded');
+                    if (indicator) indicator.textContent = '⬆';
+                }
+            }
+        });
+    }
+
+    // Initialize card expansion when messages are loaded
+    function initializeCardExpansion() {
+        setupCardExpansion();
     }
 
     // Create message element - Professional admin card style
@@ -349,9 +387,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Truncate ID for display
         const shortId = id.substring(0, 8) + '...';
+        
+        // Always show expand for better UX (even for short messages)
+        const isLongMessage = data.message && data.message.length > 50;
 
         return `
-            <div class="message-card">
+            <div class="message-card" data-id="${id}" data-expandable="true">
                 <div class="message-header">
                     <div class="message-id">📄 ID: ${shortId}</div>
                     <div class="message-time">
@@ -359,7 +400,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <small>${timeAgo}</small>
                     </div>
                 </div>
-                <div class="message-content">${escapeHtml(data.message)}</div>
+                <div class="message-content" data-full-text="${escapeHtml(data.message)}">
+                    ${escapeHtml(data.message)}
+                    <div class="expand-indicator">⬇</div>
+                </div>
             </div>
         `;
     }
