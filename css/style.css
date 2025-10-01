@@ -1,26 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
 
 :root {
-  font-family: 'Roboto Mono', monospace;
-  background-color: #242424;
+  font-family: 'Roboto', 'Hind Siliguri', sans-serif;
+  background-color: #1a1a2e;
 }
 
 a {
-  color: #646cff;
+  color: #e94560;
   text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
+  color: #ff6b6b;
 }
 
 body {
   margin: 0;
-  padding: 20px;
+  padding: 10px;
   min-height: 100vh;
-  font-family: 'Roboto Mono', monospace;
-  background-color: #242424;
-  color: white;
+  font-family: 'Roboto', 'Hind Siliguri', sans-serif;
+  background-color: #1a1a2e;
+  color: #f5f5f5;
 }
 
 .container {
@@ -29,88 +31,94 @@ body {
 }
 
 .content {
-  padding-top: 50px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  min-height: 90vh;
 }
 
 h1 {
-  font-size: 35px;
+  font-size: 28px;
   line-height: 1.1;
-  color: white;
-  margin-bottom: 10px;
+  color: #e94560;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 h2 {
-  font-size: 30px;
-  color: rgba(255, 255, 255, 0.42);
-  margin-bottom: 30px;
+  font-size: 18px;
+  color: rgba(233, 69, 96, 0.8);
+  margin-bottom: 15px;
   font-weight: 400;
 }
 
 p {
-  font-size: 20px;
+  font-size: 16px;
   color: whitesmoke;
-  line-height: 30px;
-  max-width: 700px;
-  margin-bottom: 40px;
+  line-height: 24px;
+  max-width: 600px;
+  margin-bottom: 20px;
 }
 
 span {
-  color: wheat;
+  color: #ffa726;
   text-decoration: underline;
+  font-weight: 500;
 }
 
 textarea {
-  width: 67%;
-  min-width: 300px;
+  width: 85%;
+  min-width: 350px;
   max-width: 700px;
-  padding: 20px;
-  font-size: 18px;
-  font-family: 'Roboto Mono', monospace;
-  border: 1px solid #2c3e50;
-  border-radius: 15px;
+  height: 120px;
+  padding: 15px;
+  font-size: 16px;
+  font-family: 'Roboto', 'Hind Siliguri', sans-serif;
+  border: 2px solid #0f3460;
+  border-radius: 12px;
   resize: vertical;
-  background-color: black;
-  color: white;
+  background-color: #16213e;
+  color: #f5f5f5;
   margin-bottom: 8px;
 }
 
 textarea:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #e94560;
+  box-shadow: 0 0 8px rgba(233, 69, 96, 0.4);
   outline: none;
 }
 
 .char-count {
-  width: 67%;
-  min-width: 300px;
+  width: 85%;
+  min-width: 350px;
   max-width: 700px;
   text-align: right;
   color: rgba(255, 255, 255, 0.4);
-  font-size: 14px;
-  margin-bottom: 15px;
+  font-size: 13px;
+  margin-bottom: 12px;
 }
 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 18px;
+  padding: 0.7em 1.5em;
+  font-size: 16px;
   font-weight: 500;
-  font-family: 'Roboto Mono', monospace;
-  background-color: #646cff;
+  font-family: 'Roboto', 'Hind Siliguri', sans-serif;
+  background-color: #e94560;
   color: white;
   cursor: pointer;
-  transition: border-color 0.25s;
-  margin: 10px;
+  transition: all 0.3s ease;
+  margin: 8px;
 }
 
 button:hover {
-  border-color: #646cff;
+  background-color: #d63447;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
 }
 
 button:focus {
@@ -163,29 +171,29 @@ button:focus {
 
 .controls select {
   padding: 10px;
-  border: 1px solid #646cff;
-  background-color: #1a1a1a;
-  color: white;
+  border: 1px solid #e94560;
+  background-color: #16213e;
+  color: #f5f5f5;
   border-radius: 8px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto', 'Hind Siliguri', sans-serif;
   font-size: 14px;
   cursor: pointer;
 }
 
 .controls select:focus {
   outline: none;
-  border-color: #535bf2;
+  border-color: #d63447;
 }
 
 .stats {
   display: flex;
   gap: 20px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(245, 245, 245, 0.7);
   font-size: 14px;
 }
 
 .stats strong {
-  color: wheat;
+  color: #ffa726;
 }
 
 .messages-container {
