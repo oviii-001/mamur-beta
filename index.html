@@ -1,84 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অভিযোগ বক্স - Anonymous Complaint Box</title>
-    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <title>অভিযোগ বক্স - গোপনীয় মতামত সংগ্রহ</title>
+    <link rel="stylesheet" href="css/style.css?v=5.0">
+    <meta name="description" content="সম্পূর্ণ গোপনীয়তার সাথে আপনার অভিযোগ, সমালোচনা বা পরামর্শ জানান। আপনার পরিচয় সুরক্ষিত থাকবে।">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <!-- Traditional Bengali Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>�</text></svg>">
 </head>
 <body>
-    <!-- Top Right Admin Link -->
-    <div style="position: absolute; top: 15px; right: 20px; z-index: 1000;">
-        <a href="login.html" style="color: #666; text-decoration: none; font-size: 11px; opacity: 0.4; font-family: 'Roboto', sans-serif;">Shit!!!</a>
-    </div>
+    <!-- Traditional Bengali Pattern Background -->
+    <div class="bengali-pattern"></div>
     
-    <div class="container">
-        <div class="content">
-            <h1>অভিযোগ বক্স 📋</h1>
-            <h2>Anonymous Complaint Box</h2>
-            <p>
-                এই বক্সে আপনি <span>@mamurbeta</span> এর বিরুদ্ধে যেকোনো অভিযোগ, সমালোচনা বা পরামর্শ জানাতে পারেন।
-                <br />আপনার পরিচয় সম্পূর্ণ গোপন থাকবে। নিঃসংকোচে সৎ মতামত দিন।
-                <br />Share your complaints, criticisms, or suggestions anonymously.
-            </p>
-            
-            <form id="messageForm">
-                <input
-                    type="text"
-                    id="nickname"
-                    maxlength="30"
-                    placeholder="আপনার ছদ্মনাম"
-                    class="nickname-input"
-                />
-                
-                <textarea
-                    id="messageText"
-                    rows="6"
-                    maxlength="1000"
-                    placeholder="আপনার অভিযোগ, সমালোচনা বা পরামর্শ এখানে লিখুন... / Write your complaint, criticism or suggestion here..."
-                    required
-                ></textarea>
-                
-                <div class="char-count">
-                    <span id="charCount">0</span> / 1000 characters
-                </div>
-                
-                <button type="submit">জমা দিন / Submit</button>
-            </form>
-
-            <div id="statusMessage" class="status-message"></div>
+    <!-- Traditional Header with Alpona Design -->
+    <header class="traditional-header">
+        <div class="alpona-border"></div>
+        <div class="header-content">
+            <div class="traditional-icon">📜</div>
+            <h1 class="bengali-title">অভিযোগ পত্র</h1>
+            <div class="bengali-subtitle">গোপনীয় মতামত সংগ্রহ কেন্দ্র</div>
+            <div class="english-subtitle">Anonymous Feedback Collection</div>
         </div>
+        <div class="alpona-border bottom"></div>
+    </header>
+
+    <!-- Admin Access - Traditional Corner -->
+    <div class="admin-corner">
+        <a href="login.html" class="admin-link">প্রশাসক</a>
     </div>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+        <div class="traditional-container">
+            
+            <!-- Introduction Section with Bengali Motifs -->
+            <section class="intro-section">
+                <div class="lotus-divider top"></div>
+                <div class="intro-content">
+                    <h2 class="section-title">স্বাগতম</h2>
+                    <p class="intro-text">
+                        প্রিয় ভাই/বোন, এই <span class="highlight">@mamurbeta</span> এর ব্যক্তিগত মতামত সংগ্রহ কেন্দ্রে আপনাকে স্বাগতম।
+                        <br />
+                        এখানে আপনি সম্পূর্ণ <strong>গোপনীয়তার</strong> সাথে আপনার <strong>অভিযোগ</strong>, 
+                        <strong>সমালোচনা</strong> বা <strong>পরামর্শ</strong> জানাতে পারেন।
+                    </p>
+                    <div class="privacy-assurance">
+                        <span class="assurance-icon">🛡️</span>
+                        <span>আপনার পরিচয় সম্পূর্ণ গোপন ও নিরাপদ থাকবে</span>
+                    </div>
+                </div>
+                <div class="lotus-divider bottom"></div>
+            </section>
+
+            <!-- Message Form Section -->
+            <section class="form-section">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3 class="form-title">আপনার মূল্যবান মতামত</h3>
+                        <p class="form-description">নিচের ঘরে আপনার বার্তা লিখে পাঠান</p>
+                    </div>
+
+                    <form id="messageForm" class="message-form">
+                        <!-- Nickname Field -->
+                        <div class="input-section">
+                            <label class="field-label">
+                                <span class="label-icon">👤</span>
+                                ছদ্মনাম (ঐচ্ছিক)
+                            </label>
+                            <input
+                                type="text"
+                                id="nickname"
+                                maxlength="30"
+                                placeholder="আপনার পছন্দের নাম লিখুন..."
+                                class="text-input"
+                            />
+                            <small class="field-hint">এটি ঐচ্ছিক। আপনি চাইলে খালি রাখতে পারেন।</small>
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="input-section">
+                            <label class="field-label">
+                                <span class="label-icon">✍️</span>
+                                আপনার বার্তা <span class="required">*</span>
+                            </label>
+                            <textarea
+                                id="messageText"
+                                rows="8"
+                                maxlength="1000"
+                                placeholder="আপনার মতামত, অভিযোগ বা পরামর্শ এখানে বিস্তারিতভাবে লিখুন...
+
+উদাহরণস্বরূপ:
+• কোন বিষয়ে আপনার মতামত?
+• কোথায় উন্নতির সুযোগ আছে?
+• আপনার পরামর্শ কী?
+
+Please write your feedback, complaint or suggestion here..."
+                                required
+                                class="message-textarea"
+                            ></textarea>
+                            
+                            <div class="textarea-info">
+                                <div class="char-counter">
+                                    <span id="charCount">০</span> / ১০০০ অক্ষর
+                                </div>
+                                <div class="writing-tip">
+                                    <span class="tip-icon">💡</span>
+                                    বিস্তারিত লিখলে আপনার মতামত আরও কার্যকর হবে
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Section -->
+                        <div class="submit-section">
+                            <button type="submit" class="submit-button">
+                                <span class="button-icon">📤</span>
+                                গোপনে পাঠান
+                            </button>
+                            
+                            <div class="privacy-note">
+                                <span class="note-icon">🔒</span>
+                                আপনার কোনো ব্যক্তিগত তথ্য সংরক্ষণ করা হবে না
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Status Messages -->
+                    <div id="statusMessage" class="status-message"></div>
+                </div>
+            </section>
+
+            <!-- Footer Section with Traditional Elements -->
+            <footer class="traditional-footer">
+                <div class="footer-pattern"></div>
+                <div class="footer-content">
+                    <p class="gratitude-text">
+                        <span class="gratitude-icon">🙏</span>
+                        আপনার মূল্যবান মতামতের জন্য ধন্যবাদ
+                    </p>
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <span class="trust-icon">🔐</span>
+                            <span>সম্পূর্ণ গোপনীয়</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-icon">⚡</span>
+                            <span>তাৎক্ষণিক</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-icon">🛡️</span>
+                            <span>নিরাপদ</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </main>
 
     <!-- Firebase SDK v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
-    <script src="firebase-config.js?v=3.0"></script>
+    <script src="firebase-config.js?v=5.0"></script>
     <script>
-        // Service Worker Registration for better cache control
+        // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
                         console.log('ServiceWorker registration successful');
-                        
-                        // Listen for updates
-                        registration.addEventListener('updatefound', function() {
-                            const newWorker = registration.installing;
-                            newWorker.addEventListener('statechange', function() {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // New version available
-                                    if (confirm('নতুন আপডেট উপলব্ধ! পেজ রিফ্রেশ করবেন? / New update available! Refresh page?')) {
-                                        newWorker.postMessage({type: 'SKIP_WAITING'});
-                                        window.location.reload();
-                                    }
-                                }
-                            });
-                        });
                     })
                     .catch(function(err) {
                         console.log('ServiceWorker registration failed: ', err);
@@ -86,19 +180,18 @@
             });
         }
 
-        // Cache busting - force fresh loads
-        const cacheBuster = Date.now();
-        console.log('Cache buster timestamp:', cacheBuster);
-        
-        // Wait for Firebase to be fully loaded
+        // Firebase ready check
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
-                console.log('Firebase ready for message submission...');
+                console.log('🔥 Firebase ready for message submission...');
             } else {
-                console.error('Firebase not properly initialized');
+                console.error('❌ Firebase not properly initialized');
             }
+
+            // Add smooth loading animation
+            document.body.classList.add('loaded');
         });
     </script>
-    <script src="js/main.js?v=3.0"></script>
+    <script src="js/main.js?v=5.0"></script>
 </body>
 </html>

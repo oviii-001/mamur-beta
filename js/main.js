@@ -1,6 +1,6 @@
 // Main JavaScript for MamurBeta - Anonymous Message Submission
+// Simple and Clean Version - Inspired by Uro Chithi aesthetic
 
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     const messageForm = document.getElementById('messageForm');
     const messageText = document.getElementById('messageText');
@@ -8,25 +8,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const charCount = document.getElementById('charCount');
     const statusMessage = document.getElementById('statusMessage');
 
-    // Character counter with validation
+    // Character counter
     messageText.addEventListener('input', function() {
         const count = messageText.value.length;
         charCount.textContent = count;
         
         if (count > 900) {
-            charCount.style.color = '#ff0000';
+            charCount.style.color = '#ff6b6b';
             charCount.style.fontWeight = 'bold';
         } else if (count > 800) {
-            charCount.style.color = '#ff6600';
+            charCount.style.color = '#ffa726';
         } else {
-            charCount.style.color = '#666';
+            charCount.style.color = 'rgba(255, 255, 255, 0.6)';
             charCount.style.fontWeight = 'normal';
         }
     });
 
-    // Show status message function
+    // Show status message
     function showStatus(message, type) {
-        statusMessage.textContent = message;
+        statusMessage.innerHTML = message;
         statusMessage.className = `status-message ${type}`;
         
         if (type === 'success') {
@@ -38,23 +38,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Validate message
     function validateMessage(message) {
-        if (!message) {
-            return { valid: false, error: '⚠️ Please write a message before sending!' };
+        if (!message || message.trim().length === 0) {
+            return { 
+                valid: false, 
+                error: 'Cannot send blank message.' 
+            };
         }
 
         if (message.length > 1000) {
-            return { valid: false, error: '⚠️ Message too long! Maximum 1000 characters.' };
+            return { 
+                valid: false, 
+                error: 'Message too long! Maximum 1000 characters.' 
+            };
         }
 
-        // Check for spam patterns
+        if (message.trim().length < 5) {
+            return { 
+                valid: false, 
+                error: 'Message too short! Please write at least 5 characters.' 
+            };
+        }
+
+        // Basic spam detection
         const spamPatterns = [
             /(.)\1{20,}/i, // Repeated characters
-            /^[^a-zA-Z0-9]+$/ // Only special characters
+            /^[^a-zA-Z0-9\u0980-\u09FF\s]+$/ // Only special characters
         ];
 
         for (let pattern of spamPatterns) {
             if (pattern.test(message)) {
-                return { valid: false, error: '⚠️ Invalid message format. Please write a proper message.' };
+                return { 
+                    valid: false, 
+                    error: 'Invalid message format. Please write a proper message.' 
+                };
             }
         }
 
@@ -63,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Rate limiting
     let lastSubmitTime = 0;
-    const RATE_LIMIT_MS = 30000; // 30 seconds between submissions
+    const RATE_LIMIT_MS = 30000; // 30 seconds
 
     // Form submission
     messageForm.addEventListener('submit', async function(e) {
@@ -75,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (timeSinceLastSubmit < RATE_LIMIT_MS) {
             const secondsRemaining = Math.ceil((RATE_LIMIT_MS - timeSinceLastSubmit) / 1000);
-            showStatus(`⏳ Please wait ${secondsRemaining} seconds before sending another message.`, 'info');
+            showStatus(`Please wait ${secondsRemaining} seconds before sending another message.`, 'info');
             return;
         }
 
@@ -85,12 +101,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate message
         const validation = validateMessage(message);
         if (!validation.valid) {
-            showStatus(validation.error, 'error');
+            alert(validation.error);
             return;
         }
 
+        // Check Firebase
         if (typeof firebase === 'undefined' || !firebase.apps.length) {
-            showStatus('⚠️ Firebase is not configured. Please contact the site owner.', 'error');
+            alert('Firebase is not configured. Please contact the site owner.');
             return;
         }
 
@@ -98,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state
             const submitButton = messageForm.querySelector('button[type="submit"]');
             const originalText = submitButton.textContent;
-            submitButton.textContent = '⏳ SENDING...';
+            submitButton.textContent = 'Sending...';
             submitButton.disabled = true;
             messageText.disabled = true;
             nickname.disabled = true;
@@ -106,21 +123,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get Firestore instance
             const db = firebase.firestore();
 
-            // Add message to Firestore with additional metadata
+            // Add message to Firestore
             await db.collection('messages').add({
-                message: message,
+                text: message,
                 nickname: userNickname || 'Anonymous',
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 createdAt: new Date().toISOString(),
                 messageLength: message.length,
-                version: '1.0'
+                version: '4.0'
             });
 
-            // Update rate limit timestamp
+            // Update rate limit
             lastSubmitTime = now;
 
-            // Success!
-            showStatus('✅ Message sent successfully! Your identity is completely safe! 🎉', 'success');
+            // Success
+            showStatus('Message Sent. Thanks for your feedback. Means a lot...', 'success');
             messageText.value = '';
             nickname.value = '';
             charCount.textContent = '0';
@@ -135,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error sending message:', error);
             
-            let errorMessage = '❌ Oops! Something went wrong. ';
+            let errorMessage = 'Error sending message. ';
             
             if (error.code === 'permission-denied') {
                 errorMessage += 'Permission denied. Please contact the site owner.';
@@ -145,11 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 errorMessage += 'Please try again later.';
             }
             
-            showStatus(errorMessage, 'error');
+            alert(errorMessage);
             
             // Restore button
             const submitButton = messageForm.querySelector('button[type="submit"]');
-            submitButton.textContent = '🚀 SEND MESSAGE 🚀';
+            submitButton.textContent = 'Send';
             submitButton.disabled = false;
             messageText.disabled = false;
             nickname.disabled = false;
@@ -157,5 +174,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Auto-focus on textarea
-    messageText.focus();
+    setTimeout(() => {
+        messageText.focus();
+    }, 500);
+
+    // Keyboard shortcut: Ctrl+Enter to submit
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            if (messageText.value.trim()) {
+                messageForm.dispatchEvent(new Event('submit'));
+            }
+        }
+    });
+
+    console.log('🚀 MamurBeta v4.0 - Clean Anonymous Message System Loaded');
 });

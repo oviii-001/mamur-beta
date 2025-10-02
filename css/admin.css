@@ -614,7 +614,7 @@
 }
 
 .message-id::before {
-    content: '🆔';
+    content: '';
     font-size: 0.8rem;
 }
 
