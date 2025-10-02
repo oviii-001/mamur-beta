@@ -1,1 +1,1 @@
-# ovijog.com
+# ovijog dot com
