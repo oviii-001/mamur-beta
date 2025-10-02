@@ -1,111 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আভিযোগ বক্স - Admin Login</title>
-    <link rel="stylesheet" href="css/style.css?v=3.0">
-    <link rel="stylesheet" href="css/admin.css?v=3.0">
+    <title>আভিযোগ বক্স - অ্যাডমিন লগইন | Admin Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    
     <style>
-        .login-container {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', 'Kalpurush', Arial, sans-serif;
+            background: #fef3c7;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
-            padding: 2rem;
+            padding: 1rem;
         }
 
-        .login-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(233, 69, 96, 0.3);
-            border-radius: 16px;
-            padding: 3rem;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
+        .login-container {
             width: 100%;
-            text-align: center;
-        }
-
-        .login-title {
-            color: #fff;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            max-width: 420px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
+        }
+
+        .login-box {
+            background: #fefce8;
+            border: 3px solid #f59e0b;
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 100%;
+            box-shadow: 
+                0 8px 32px rgba(184, 134, 11, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #f59e0b 0%, 
+                #059669 25%, 
+                #f59e0b 50%, 
+                #059669 75%, 
+                #f59e0b 100%);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .traditional-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            pointer-events: none;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(184, 134, 11, 0.05) 50%, 
+                transparent 100%);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #059669;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .login-subtitle {
-            color: #b0b0b0;
-            margin-bottom: 2rem;
+            text-align: center;
+            color: #4b5563;
             font-size: 1rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lotus-divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-size: 1.5rem;
+            color: #f59e0b;
+            opacity: 0.7;
+            position: relative;
+            z-index: 1;
         }
 
         .login-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .form-group {
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
         }
 
         .form-label {
-            color: #fff;
+            color: #059669;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: block;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .form-input {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(233, 69, 96, 0.3);
+            background: #fefce8;
+            border: 2px solid #f59e0b;
             border-radius: 8px;
-            color: white;
+            padding: 0.875rem 1rem;
+            color: #1f2937;
             font-size: 1rem;
+            font-family: inherit;
             transition: all 0.3s ease;
-            box-sizing: border-box;
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #e94560;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
         }
 
         .form-input::placeholder {
-            color: #888;
+            color: #4b5563;
         }
 
         .login-button {
-            background: linear-gradient(135deg, #e94560, #d63653);
+            background: linear-gradient(135deg, #059669, #1a5b1a);
             color: white;
-            border: none;
-            padding: 1rem 2rem;
+            border: 2px solid #f59e0b;
             border-radius: 8px;
+            padding: 1rem;
+            font-size: 1rem;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-family: inherit;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .login-button:hover {
-            background: linear-gradient(135deg, #d63653, #c42a46);
+            background: linear-gradient(135deg, #1a5b1a, #059669);
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(233, 69, 96, 0.4);
+            box-shadow: 0 6px 20px rgba(34, 102, 68, 0.3);
         }
 
         .login-button:disabled {
@@ -115,9 +182,9 @@
         }
 
         .error-message {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
-            color: #e74c3c;
+            background: rgba(220, 38, 127, 0.1);
+            border: 2px solid #dc2626;
+            color: #dc2626;
             padding: 1rem;
             border-radius: 8px;
             margin-top: 1rem;
@@ -127,17 +194,22 @@
 
         .back-link {
             margin-top: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .back-link a {
-            color: #b0b0b0;
+            color: #4b5563;
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s ease;
+            border-bottom: 1px solid transparent;
         }
 
         .back-link a:hover {
-            color: #e94560;
+            color: #059669;
+            border-bottom-color: #f59e0b;
         }
 
         @media (max-width: 480px) {
@@ -155,11 +227,14 @@
 <body>
     <div class="login-container">
         <div class="login-box">
+            <div class="traditional-border"></div>
+            
             <h1 class="login-title">
-                <span>🔐</span>
                 অ্যাডমিন লগইন
             </h1>
             <p class="login-subtitle">Admin Login | প্রশাসনিক প্রবেশ</p>
+
+            <div class="lotus-divider">❀ ❀ ❀</div>
 
             <form class="login-form" id="loginForm">
                 <div class="form-group">
@@ -191,7 +266,7 @@
                 </div>
 
                 <button type="submit" class="login-button" id="loginButton">
-                    🚀 লগইন করুন / Login
+                    লগইন করুন / Login
                 </button>
 
                 <div class="error-message" id="errorMessage"></div>
@@ -217,7 +292,7 @@
             
             // Disable button during login
             loginButton.disabled = true;
-            loginButton.textContent = '⏳ যাচাই করা হচ্ছে... / Verifying...';
+            loginButton.textContent = 'যাচাই করা হচ্ছে... / Verifying...';
             
             // Simple authentication (you can change these credentials)
             const validUsername = 'mamurbeta';
@@ -230,7 +305,7 @@
                     sessionStorage.setItem('adminLoginTime', Date.now().toString());
                     
                     // Success feedback
-                    loginButton.textContent = '✅ সফল! / Success!';
+                    loginButton.textContent = 'সফল! / Success!';
                     loginButton.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
                     
                     // Redirect to admin panel
@@ -239,12 +314,12 @@
                     }, 1000);
                 } else {
                     // Show error
-                    errorMessage.textContent = '❌ ভুল ব্যবহারকারীর নাম বা পাসওয়ার্ড / Invalid username or password';
+                    errorMessage.textContent = 'ভুল ব্যবহারকারীর নাম বা পাসওয়ার্ড / Invalid username or password';
                     errorMessage.style.display = 'block';
                     
                     // Re-enable button
                     loginButton.disabled = false;
-                    loginButton.textContent = '🚀 লগইন করুন / Login';
+                    loginButton.textContent = 'লগইন করুন / Login';
                     
                     // Clear password field
                     document.getElementById('password').value = '';

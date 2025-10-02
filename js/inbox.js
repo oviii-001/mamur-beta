@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get Firestore instance
             window.db = firebase.firestore();
             
-            // Initialize card expansion functionality
-            initializeCardExpansion();
+            // Card expansion disabled in new design
+            // initializeCardExpansion();
             
             // Load initial data
             loadMessages();
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setupCardExpansion();
     }
 
-    // Create message element - Professional admin card style
+    // Create message element - Minimalist admin card style
     function createMessageElement(id, data) {
         // Format timestamp
         let dateString = 'Unknown';
@@ -386,24 +386,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Get nickname or use fallback
-        const displayName = data.nickname && data.nickname.trim() !== '' ? data.nickname : 'Anonymous';
-        const shortId = id.substring(0, 8) + '...';
-        
-        // Always show expand for better UX (even for short messages)
-        const isLongMessage = data.message && data.message.length > 50;
+        const displayName = data.nickname && data.nickname.trim() !== '' ? data.nickname.trim() : 'Anonymous';
+        const timeRight = timeAgo ? `${dateString} • ${timeAgo}` : `${dateString}`;
 
         return `
-            <div class="message-card" data-id="${id}" data-expandable="true">
-                <div class="message-header">
-                    <div class="message-id">� ${escapeHtml(displayName)}</div>
-                    <div class="message-time">
-                        <div>${dateString}</div>
-                        <small>${timeAgo}</small>
-                    </div>
+            <div class="message-card" data-id="${id}" data-message-id="${id}">
+                <div class="message-meta">
+                    <span class="message-author">${escapeHtml(displayName)}</span>
+                    <span class="message-timestamp">${timeRight}</span>
                 </div>
-                <div class="message-content" data-full-text="${escapeHtml(data.message)}">
-                    ${escapeHtml(data.message)}
-                    <div class="expand-indicator">⬇</div>
+                <div class="message-content" data-full-text="${escapeHtml(data.message || '')}">
+                    <div class="message-content-text">${escapeHtml(data.message || '')}</div>
+                </div>
+                <div class="message-actions">
+                    <button class="action-btn" onclick="copyMessage('${id}')">Copy</button>
+                    <button class="action-btn" onclick="markAsRead('${id}')">Mark read</button>
+                    <button class="action-btn delete" onclick="deleteMessage('${id}')">Delete</button>
                 </div>
             </div>
         `;
